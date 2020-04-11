@@ -187,5 +187,16 @@ namespace NPOI.CSS
 
         #endregion data-format
 
+        #region WrapText
+
+        public static void WrapText(this ICellStyle style, IWorkbook wb, string v)
+        {
+            
+            style.WrapText = v == "TRUE";
+          
+        }
+
+        #endregion WrapText
+
     }
 }

@@ -8,7 +8,7 @@ namespace NPOI.CSS
 {
     public static class CellCss
     {
-        private const string defaultFontStyle = "font-color:black;font-name:Arial;font-size:10;font-weight:normal;font-underline:none;font-italic:false;font-strikeout:false;font-superscript:none;";
+        private const string defaultFontStyle = "font-color:#000000;font-name:Arial;font-size:10;font-weight:normal;font-underline:none;font-italic:false;font-strikeout:false;font-superscript:none;";
 
         public static ICell CSS(this ICell cell, string style)
         {
@@ -153,6 +153,11 @@ namespace NPOI.CSS
                 case "data-format":
                     style.DataFormat(wb, kvp.Value);
                     break;
+
+                case "WrapText":
+                    style.WrapText(wb, kvp.Value);
+                    break;
+
 
                 default:
                     break;

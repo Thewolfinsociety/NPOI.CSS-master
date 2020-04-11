@@ -1,7 +1,10 @@
 ﻿//hello
 using NPOI.SS.UserModel;
 using System.Collections.Generic;
-
+using NPOI.HSSF.UserModel;
+using NPOI.HSSF.Util;
+using NPOI.HSSF.Record;
+using System;
 namespace NPOI.CSS
 {
     internal static partial class CellStyleRender
@@ -49,12 +52,37 @@ namespace NPOI.CSS
         public static void BackgroundColor(this ICellStyle style, IWorkbook wb, string v)
         {
             style.FillPattern = FillPattern.SolidForeground;
-            style.FillForegroundColor = v.ConvertToColor();
+            style.FillForegroundColor = v.ConvertToGroundColor();
+        }
+
+    
+
+        public static short ConvertToGroundColor(this string v)
+
+        {
+            //PaletteRecord palette = new PaletteRecord();
+            int r = Convert.ToInt32("0x" + v.Substring(1, 2), 16);
+
+            int g = Convert.ToInt32("0x" + v.Substring(3, 2), 16);
+
+            int b = Convert.ToInt32("0x" + v.Substring(5, 2), 16);
+            HSSFPalette mypalette = new HSSFPalette(new PaletteRecord());
+            HSSFColor hssFColor = mypalette.FindColor((Byte)r, (Byte)g, (Byte)(b));
+            return hssFColor.Indexed;
         }
 
         public static short ConvertToColor(this string v)
         {
-            switch (v)
+            int r = Convert.ToInt32("0x" + v.Substring(1, 2), 16);
+
+            int g = Convert.ToInt32("0x" + v.Substring(3, 2), 16);
+
+            int b = Convert.ToInt32("0x" + v.Substring(5, 2), 16);
+            HSSFPalette mypalette = new HSSFPalette(new PaletteRecord());
+            HSSFColor hssFColor = mypalette.FindColor((Byte)r, (Byte)g, (Byte)(b));
+            return hssFColor.Indexed;
+
+            /*switch (v)
             {
                 case "AQUA":
                     return 49;
@@ -224,7 +252,7 @@ namespace NPOI.CSS
 
                 default:
                     return 32767;
-            }
+            };*/
         }
 
         public static HorizontalAlignment ConvertToHorizontalAlignment(this string v)
